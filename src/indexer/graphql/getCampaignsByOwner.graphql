@@ -1,0 +1,18 @@
+query getCampaignsByOwner($address: String = "") {
+  campaignList(where: {owner: {address: {_eq: $address}}}, order_by: {creationDate: desc}) {
+    title
+    owner {
+      address
+      name
+    }
+    description
+    creationDate
+    category
+    closed
+    donated
+    goal
+    version
+    contract
+    ascii
+  }
+}
