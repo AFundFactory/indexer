@@ -9,9 +9,9 @@ contracts:
   ff_ghostnet:
     address: KT1WJLuKkGiimDDRNepSQPz54qtDcm6gBLgG
     typename: ff_main
-  campaign:
-    address: KT1FU8z5qzeZiTETwRk8XejwzmZpUsdKLMZH
-    typename: campaign
+  # campaign:
+  #   address: KT1FU8z5qzeZiTETwRk8XejwzmZpUsdKLMZH
+  #   typename: campaign
 
 datasources:
   tzkt_ghostnet:
@@ -60,10 +60,10 @@ indexes:
 
 # logging: verbose
       
-# advanced:
-#   reindex:
-#     manual: wipe
-#     migration: wipe
-#     rollback: wipe
-#     config_modified: wipe
-#     schema_modified: wipe
+advanced:
+  reindex:
+    manual: wipe
+    migration: wipe
+    rollback: wipe
+    config_modified: wipe
+    schema_modified: wipe
