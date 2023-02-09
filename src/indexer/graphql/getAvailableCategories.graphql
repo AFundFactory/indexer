@@ -1,0 +1,5 @@
+query getAvailableCategories {
+  campaignList(distinct_on: category) {
+    category
+  }
+}
