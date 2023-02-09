@@ -7,7 +7,7 @@ database:
 
 contracts:
   ff_ghostnet:
-    address: KT1WJLuKkGiimDDRNepSQPz54qtDcm6gBLgG
+    address: KT1KVWxFQU33Tajk99su8Tfcr5JQywWrnQrp
     typename: ff_main
   # campaign:
   #   address: KT1FU8z5qzeZiTETwRk8XejwzmZpUsdKLMZH
@@ -56,14 +56,3 @@ indexes:
         pattern:
           - type: origination
             source: ff_ghostnet
-
-
-# logging: verbose
-      
-advanced:
-  reindex:
-    manual: wipe
-    migration: wipe
-    rollback: wipe
-    config_modified: wipe
-    schema_modified: wipe
