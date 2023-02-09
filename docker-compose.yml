@@ -62,3 +62,5 @@ services:
 
 volumes:
   db:
+  caddy_data:
+  caddy_config:
