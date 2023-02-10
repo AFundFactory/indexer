@@ -1,5 +1,5 @@
 query getCampaignsByDonor($address: String = "") {
-  campaignList(order_by: {creationDate: desc}, where: {funding: {fundingAddress: {_eq: $address}}}) {
+  campaignList(order_by: {creationDate: desc}, where: {funding: {fundingAddress: {address: {_eq: $address}}}}) {
     title
     owner {
       address
