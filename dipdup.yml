@@ -6,22 +6,19 @@ database:
   path: indexer.sqlite3
 
 contracts:
-  ff_ghostnet:
-    address: KT1KVWxFQU33Tajk99su8Tfcr5JQywWrnQrp
+  ff_mainnet:
+    address: KT1JmsJTJd9LwtCxZLmX28PYTdBAqrV5kUps
     typename: ff_main
-  # campaign:
-  #   address: KT1FU8z5qzeZiTETwRk8XejwzmZpUsdKLMZH
-  #   typename: campaign
 
 datasources:
-  tzkt_ghostnet:
+  tzkt_mainnet:
     kind: tzkt
-    url: https://api.ghostnet.tzkt.io/
+    url: https://api.tzkt.io
 
 templates:
   campaign_template:
     kind: operation
-    datasource: tzkt_ghostnet
+    datasource: tzkt_mainnet
     types:
       - transaction
       - origination
@@ -46,13 +43,13 @@ templates:
 indexes:
   factory:
     kind: operation
-    datasource: tzkt_ghostnet
+    datasource: tzkt_mainnet
     types:
       - origination
     contracts:
-      - ff_ghostnet
+      - ff_mainnet
     handlers:
       - callback: on_factory_origination
         pattern:
           - type: origination
-            source: ff_ghostnet
+            source: ff_mainnet
