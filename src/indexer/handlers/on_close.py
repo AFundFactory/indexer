@@ -4,7 +4,8 @@ from indexer.types.campaign.parameter.close_campaign import CloseCampaignParamet
 from dipdup.context import HandlerContext
 from dipdup.models import Transaction
 
-import requests, json
+# import requests, json
+from indexer.utils import fetch_profile_tzkt
 
 async def on_close(
     ctx: HandlerContext,
@@ -19,19 +20,20 @@ async def on_close(
 
     # update username
     owner = close.data.sender_address
-    profile = requests.get('https://api.tzprofiles.com/' + owner).json()
+    profile = fetch_profile_tzkt(owner)
+    # profile = requests.get('https://api.tzprofiles.com/' + owner).json()
 
-    username = ''
-    if len(profile) > 0:
-        for verification in profile:
-            obj = json.loads(verification[1])
-            context = obj['@context'][1]
-            credentialSubject = obj['credentialSubject']
-            if 'website' in context:
-                username = credentialSubject['alias']
+    # username = ''
+    # if len(profile) > 0:
+    #     for verification in profile:
+    #         obj = json.loads(verification[1])
+    #         context = obj['@context'][1]
+    #         credentialSubject = obj['credentialSubject']
+    #         if 'website' in context:
+    #             username = credentialSubject['alias']
 
     user, _ = await models.UserTable.get_or_create(
         address = owner
     )
-    user.name = username
+    user.name = profile['name']
     await user.save()

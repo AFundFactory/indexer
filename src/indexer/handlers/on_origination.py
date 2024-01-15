@@ -4,7 +4,8 @@ from indexer.types.campaign.storage import CampaignStorage
 from dipdup.context import HandlerContext
 from dipdup.models import Origination
 
-import requests, json
+# import requests, json
+from indexer.utils import fetch_profile_tzkt
 
 async def on_origination(
     ctx: HandlerContext,
@@ -24,21 +25,23 @@ async def on_origination(
     version = campaign_origination.data.storage['version']
 
     # create user
-    profile = requests.get('https://api.tzprofiles.com/' + owner).json()
+    profile = fetch_profile_tzkt(owner)
+    # profile = requests.get('https://api.tzprofiles.com/' + owner).json()
 
-    username = ''
-    if len(profile) > 0:
-        for verification in profile:
-            obj = json.loads(verification[1])
-            context = obj['@context'][1]
-            credentialSubject = obj['credentialSubject']
-            if 'website' in context:
-                username = credentialSubject['alias']
+    # username = ''
+    # if len(profile) > 0:
+    #     for verification in profile:
+    #         obj = json.loads(verification[1])
+    #         context = obj['@context'][1]
+    #         credentialSubject = obj['credentialSubject']
+    #         if 'website' in context:
+    #             username = credentialSubject['alias']
 
     user, _ = await models.UserTable.get_or_create(
         address = owner
     )
-    user.name = username
+    ctx.logger.info(profile)
+    user.name = profile['name']
     await user.save()
 
     await models.CampaignList(

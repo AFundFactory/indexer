@@ -4,7 +4,8 @@ from indexer.types.campaign.parameter.send_funds import SendFundsParameter
 from dipdup.context import HandlerContext
 from dipdup.models import Transaction
 
-import requests, json
+# import requests, json
+from indexer.utils import fetch_profile_tzkt
 
 async def on_fund(
     ctx: HandlerContext,
@@ -15,21 +16,23 @@ async def on_fund(
     amount = int(fund.data.amount)
     campaign_address = fund.data.target_address
 
-    profile = requests.get('https://api.tzprofiles.com/' + funding_address).json()
+    # profile = requests.get('https://api.tzprofiles.com/' + funding_address).json()
 
-    username = ''
-    if len(profile) > 0:
-        for verification in profile:
-            obj = json.loads(verification[1])
-            context = obj['@context'][1]
-            credentialSubject = obj['credentialSubject']
-            if 'website' in context:
-                username = credentialSubject['alias']
+    # username = ''
+    # if len(profile) > 0:
+    #     for verification in profile:
+    #         obj = json.loads(verification[1])
+    #         context = obj['@context'][1]
+    #         credentialSubject = obj['credentialSubject']
+    #         if 'website' in context:
+    #             username = credentialSubject['alias']
+
+    profile = fetch_profile_tzkt(funding_address)
 
     user, _ = await models.UserTable.get_or_create(
         address = funding_address
     )
-    user.name = username
+    user.name = profile['name']
     await user.save()
 
     await models.FundingTable(
